@@ -55,6 +55,7 @@ const openSetMenu = row => {
 
 const handleSetMenuSubmit = () => {
   setMenuFormDrawerRef.value.showLoading()
+  console.log(menuIds.value)
   setRoleMenus(roleId.value, menuIds.value)
     .then(() => {
       toast('配置成功')

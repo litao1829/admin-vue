@@ -4,6 +4,10 @@ export function getRoleList(page, limit) {
   return axios.get(`/sys/role/page?page=${page}&limit=${limit}`)
 }
 
+export function getRoles() {
+  return axios.get(`/sys/role/list`)
+}
+
 export function getRoleInfo(roleId) {
   return axios.get(`/sys/role/${roleId}`)
 }

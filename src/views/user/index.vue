@@ -170,6 +170,47 @@ const shortcuts = [
     }
   }
 ]
+
+//分配角色
+const setRoleFormDrawerRef = ref(null)
+const roleList = ref([])
+const userId = ref(0)
+
+//当前用户角色ID
+const roleIds = ref([])
+const checkStrictly = ref(false)
+
+const openSetRole = row => {
+  userId.value = row.id
+  checkStrictly.value = true
+
+  getRoles().then(res => {
+    roleList.value = res
+    setRoleFormDrawerRef.value.open()
+
+    //当前角色拥有的所有权限id
+    getRoleIds(userId.value).then(res => {
+      roleIds.value = res.roleIdList
+
+      setTimeout(() => {
+        checkStrictly.value = false
+      }, 150)
+    })
+  })
+}
+
+const handleSetRoleSubmit = () => {
+  setRoleFormDrawerRef.value.showLoading()
+  setUserRole(userId.value, roleIds.value)
+    .then(() => {
+      toast('配置成功')
+      getData()
+      setRoleFormDrawerRef.value.close()
+    })
+    .finally(() => {
+      setRoleFormDrawerRef.value.hideLoading()
+    })
+}
 </script>
 
 <template>
@@ -241,7 +282,7 @@ const shortcuts = [
       class="w-full"
     >
       <el-table-column type="selection" width="50" v-permission="['sys:notice:save', 'sys:notice:delete']" />
-      <el-table-column prop="title" label="管理员信息">
+      <el-table-column prop="title" class="flex-1" label="管理员信息">
         <template #default="{ row }">
           <div class="v-center">
             <el-avatar :size="40" :src="row.avatar">
@@ -262,7 +303,7 @@ const shortcuts = [
       </el-table-column>
 
       <el-table-column prop="realName" label="真实姓名" class="flex-1" align="center" />
-      <el-table-column label="状态" align="center">
+      <el-table-column label="状态" align="center" class="flex-1">
         <template #default="{ row }">
           <el-switch
             :model-value="row.status"
@@ -272,11 +313,14 @@ const shortcuts = [
           ></el-switch>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="220" align="center" />
-      <el-table-column label="操作" align="center" v-permission="['sys:notice:update']" width="200">
+      <el-table-column prop="createTime" label="创建时间" class="flex-1" align="center" />
+      <el-table-column label="操作" align="center" v-permission="['sys:notice:update']" class="flex-1">
         <template #default="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope.row)" v-permission="['sys:notice:update']"
+          <el-button type="primary" size="small" @click="handleEdit(scope.row)" v-permission="['sys:user:update']"
             >修改</el-button
+          >
+          <el-button type="success" size="small" @click="openSetRole(scope.row)" v-permission="['sys:user:update']"
+            >角色分配</el-button
           >
           <el-popconfirm
             title="确定删除？"
@@ -328,6 +372,17 @@ const shortcuts = [
           </el-select>
         </el-form-item>
       </el-form>
+    </FormDrawer>
+
+    <!--权限配置 -->
+    <FormDrawer ref="setRoleFormDrawerRef" title="角色分配" @submit="handleSetRoleSubmit">
+      <el-form-item label="角色类型">
+        <el-checkbox-group v-model="roleIds">
+          <el-checkbox class="mt-1" v-for="item in roleList" :label="item.id" border :key="item.id">{{
+            item.name
+          }}</el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
     </FormDrawer>
   </el-card>
 </template>

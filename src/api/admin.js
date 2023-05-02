@@ -58,3 +58,11 @@ export function importUser(file) {
     }
   })
 }
+
+export function setUserRole(userId, roleIds) {
+  return axios.post(`/sys/user/role/${userId}`, roleIds)
+}
+
+export function getRoleIds(id) {
+  return axios.get(`/sys/user/${id}`)
+}

@@ -38,7 +38,9 @@ export default defineConfig({
             'deleteUser',
             'deleteSelectAllUser',
             'changeStatus',
-            'importUser'
+            'importUser',
+            'setUserRole',
+            'getRoleIds'
           ],
           '@/api/export': ['exportUser'],
           '@/api/menu': [
@@ -52,7 +54,15 @@ export default defineConfig({
           ],
           '@/api/notice': ['getNoticePage', 'saveNotice', 'updateNotice', 'deleteNotice', 'deleteSelectAll'],
           '@/api/index': ['getstatistics1', 'getstatistics2', 'getstatistics3', 'getstatistics4'],
-          '@/api/role': ['getRoleList', 'getRoleInfo', 'createRole', 'updateRole', 'deleteRole', 'setRoleMenus'],
+          '@/api/role': [
+            'getRoleList',
+            'getRoleInfo',
+            'createRole',
+            'updateRole',
+            'deleteRole',
+            'setRoleMenus',
+            'getRoles'
+          ],
           '@/stores/index': ['useAdminStore'],
           '@/hooks/useAuth': ['useAccountLogin', 'useLogout'],
           '@/hooks/useAdmin': ['usePassword'],

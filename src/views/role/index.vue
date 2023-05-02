@@ -1,12 +1,5 @@
 <script setup>
 const { tableData, loading, currentPage, total, limit, getData, handleDelete } = useInitTable({
-  searchForm: {
-    username: '',
-    realName: '',
-    mobile: '',
-    gender: null,
-    dateValue: ''
-  },
   getList: getRoleList,
   delete: deleteRole
 })

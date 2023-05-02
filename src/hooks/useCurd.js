@@ -29,8 +29,13 @@ export function useInitTable(opt = {}) {
     opt
       .getList(currentPage.value, limit.value, searchForm)
       .then(res => {
-        tableData.value = res.list
-        total.value = res.total
+        //区分是否分页
+        if (res.list) {
+          tableData.value = res.list
+          total.value = res.total
+        } else {
+          tableData.value = res
+        }
       })
       .finally(() => {
         loading.value = false

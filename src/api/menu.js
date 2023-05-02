@@ -7,3 +7,7 @@ export function getNav() {
 export function getAuthority() {
   return axios.get('/sys/menu/authority')
 }
+
+export function getMenuList() {
+  return axios.get('/sys/menu/list')
+}

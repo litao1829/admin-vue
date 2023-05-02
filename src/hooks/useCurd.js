@@ -25,9 +25,7 @@ export function useInitTable(opt = {}) {
     if (typeof p == 'number') {
       currentPage.value = p
     }
-
     loading.value = true
-    console.log(opt)
     opt
       .getList(currentPage.value, limit.value, searchForm)
       .then(res => {

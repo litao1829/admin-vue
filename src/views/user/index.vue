@@ -132,10 +132,10 @@ const checkFileType = file => {
 const options = reactive([
   {
     label: '男',
-    value: 0
+    value: '0'
   },
-  { label: '女', value: 1 },
-  { label: '未知', value: 2 }
+  { label: '女', value: '1' },
+  { label: '未知', value: '2' }
 ])
 
 //日期显示为中文
